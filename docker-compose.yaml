@@ -1,0 +1,25 @@
+services:
+  loomclient:
+    image: loom-client:latest
+    container_name: loom-client
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+        reservations:
+          cpus: '1.0'
+    depends_on:
+      - loomserver
+  loomserver:
+    image: loom-server:latest
+    container_name: loom-server
+    ports:
+      - "8099:8099"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+        reservations:
+          cpus: '1.0'
