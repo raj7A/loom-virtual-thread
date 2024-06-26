@@ -11,14 +11,15 @@ import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 public class EchoClient {
-    static int maxCount = 10000;
+    static int maxCount = 25000;
 
     public static void main(String[] args) throws IOException {
         //org.openjdk.jmh.Main.main(args);
+        warmUp();
         Instant start = Instant.now();
 
         virtualSend();
-        //executorSend();
+//        executorSend();
 
         System.out.println("Duration is : " + Duration.between(start, Instant.now()).getSeconds());
     }

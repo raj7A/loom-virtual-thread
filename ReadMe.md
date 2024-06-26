@@ -3,6 +3,7 @@
 ./mvnw clean install
 docker build -t loom-server server
 docker build -t loom-client client
+docker build -t loop loop
 docker compose up
 ```
 

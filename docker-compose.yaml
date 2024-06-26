@@ -1,4 +1,15 @@
 services:
+  loop:
+    image: loop:latest
+    container_name: loop
+    ports:
+      - "8999:8999"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+        reservations:
+          cpus: '1.0'
   loomclient:
     image: loom-client:latest
     container_name: loom-client

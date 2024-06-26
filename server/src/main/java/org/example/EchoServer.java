@@ -10,6 +10,8 @@ import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static java.lang.Thread.sleep;
+
 public class EchoServer {
 
     public static void main(String[] args) throws IOException {
@@ -19,7 +21,8 @@ public class EchoServer {
     }
 
     private static void executorThread(String[] args) throws IOException {
-        ExecutorService executor = Executors.newFixedThreadPool(10000);
+        System.out.println("Flow::TP");
+        ExecutorService executor = Executors.newFixedThreadPool(5000);
         ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
         while (true) {
             Socket clientSocket = serverSocket.accept();
@@ -27,7 +30,7 @@ public class EchoServer {
                 try {
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                    sleep();
+                    sleep(Duration.ofSeconds(1));
                     out.println("TP :: For input " + in.readLine() + " ,Thread is " + Thread.currentThread().threadId());
                 } catch (IOException | InterruptedException e) {
                     System.out.println(e);
@@ -37,11 +40,8 @@ public class EchoServer {
         }
     }
 
-    private static void sleep() throws InterruptedException {
-        Thread.sleep(Duration.ofSeconds(1));
-    }
-
     private static void virtualThread(String[] args) throws IOException {
+        System.out.println("Flow::VT");
         ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
         while (true) {
             Socket clientSocket = serverSocket.accept();
@@ -49,7 +49,7 @@ public class EchoServer {
                 try {
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                    sleep();
+                    sleep(Duration.ofSeconds(1));
                     out.println("VT :: For input " + in.readLine() + " ,Thread is " + Thread.currentThread().threadId());
                 } catch (IOException | InterruptedException e) {
                     System.out.println(e);
