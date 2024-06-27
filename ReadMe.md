@@ -7,4 +7,8 @@ docker build -t loop loop
 docker compose up
 ```
 
+![img.png](img.png)
+
+
+
 https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html#GUID-2DDA5807-5BD5-4ABC-B62A-A1230F0566E0

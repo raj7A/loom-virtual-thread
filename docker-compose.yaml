@@ -1,7 +1,7 @@
 services:
-  loop:
+  loopvt:
     image: loop:latest
-    container_name: loop
+    container_name: loom-non-io-virtual-thread
     ports:
       - "8999:8999"
     deploy:
@@ -10,9 +10,24 @@ services:
           cpus: '1.0'
         reservations:
           cpus: '1.0'
-  loomclient:
+    environment:
+      FLOW: "VT"
+  looptp:
+    image: loop:latest
+    container_name: loom-non-io-thread-pool
+    ports:
+      - "8998:8998"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+        reservations:
+          cpus: '1.0'
+    environment:
+      FLOW: "TP"
+  loomclientvt:
     image: loom-client:latest
-    container_name: loom-client
+    container_name: loom-io-client-virtual-thread
     ports:
       - "8080:8080"
     deploy:
@@ -21,11 +36,28 @@ services:
           cpus: '1.0'
         reservations:
           cpus: '1.0'
+    environment:
+      FLOW: "VT"
     depends_on:
-      - loomserver
-  loomserver:
+      - loomservervt
+  loomclienttp:
+    image: loom-client:latest
+    container_name: loom-io-client-thread-pool
+    ports:
+      - "8079:8079"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+        reservations:
+          cpus: '1.0'
+    environment:
+      FLOW: "TP"
+    depends_on:
+      - loomservertp
+  loomservervt:
     image: loom-server:latest
-    container_name: loom-server
+    container_name: loom-io-server-virtual-thread
     ports:
       - "8099:8099"
     deploy:
@@ -34,3 +66,20 @@ services:
           cpus: '1.0'
         reservations:
           cpus: '1.0'
+    environment:
+      FLOW: "VT"
+      PORT: "8099"
+  loomservertp:
+    image: loom-server:latest
+    container_name: loom-io-server-thread-pool
+    ports:
+      - "8098:8098"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+        reservations:
+          cpus: '1.0'
+    environment:
+      FLOW: "TP"
+      PORT: "8098"

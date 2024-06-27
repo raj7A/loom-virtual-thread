@@ -7,27 +7,30 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 public class EchoClient {
-    static int maxCount = 25000;
+    static int totalIterations = 25000;
+    static String tpHost = "loomservertp";
+    static String vtHost = "loomservervt";
+    static int tpPort = 8098;
+    static int vtPort = 8099;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         //org.openjdk.jmh.Main.main(args);
-        warmUp();
-        Instant start = Instant.now();
-
-        virtualSend();
-//        executorSend();
-
-        System.out.println("Duration is : " + Duration.between(start, Instant.now()).getSeconds());
+        if (Objects.equals(args[0], "TP")) {
+            threadPoolFlow();
+        } else if (Objects.equals(args[0], "VT")) {
+            virtualThreadFlow();
+        }
     }
 
-    public static void warmUp() throws IOException {
+    public static void warmUp(String host, int port) {
         IntStream.range(0, 5).forEach(i -> {
             try {
-                acquireConnectionAndSend(i);
+                acquireConnectionAndSend(host, port, i);
             } catch (IOException e) {
                 System.out.println(e);
                 throw new RuntimeException(e);
@@ -35,34 +38,40 @@ public class EchoClient {
         });
     }
 
-    public static void executorSend() {
-        try (var executor = Executors.newFixedThreadPool(maxCount)) {
-            IntStream.range(0, maxCount).forEach(i -> executor.submit(() -> {
+    public static void threadPoolFlow() {
+        warmUp(tpHost, tpPort);
+        Instant start = Instant.now();
+        try (var executor = Executors.newFixedThreadPool(5000)) {
+            IntStream.range(0, totalIterations).forEach(i -> executor.submit(() -> {
                 try {
-                    acquireConnectionAndSend(i);
+                    acquireConnectionAndSend(tpHost, tpPort, i);
                 } catch (IOException e) {
                     System.out.println(e);
                     throw new RuntimeException(e);
                 }
             }));
         }
+        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds");
     }
 
-    public static void virtualSend() {
+    public static void virtualThreadFlow() {
+        warmUp(vtHost, vtPort);
+        Instant start = Instant.now();
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            IntStream.range(0, maxCount).forEach(i -> executor.submit(() -> {
+            IntStream.range(0, totalIterations).forEach(i -> executor.submit(() -> {
                 try {
-                    acquireConnectionAndSend(i);
+                    acquireConnectionAndSend(vtHost, vtPort, i);
                 } catch (IOException e) {
                     System.out.println(e);
                     throw new RuntimeException(e);
                 }
             }));
         }
+        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds");
     }
 
-    private static void acquireConnectionAndSend(Integer input) throws IOException {
-        Socket echoSocket = new Socket("loomserver", 8099);
+    private static void acquireConnectionAndSend(String host, Integer port, Integer input) throws IOException {
+        Socket echoSocket = new Socket(host, port);
         PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
         //System.out.println("Sending : " + input);

@@ -2,6 +2,7 @@ package org.example;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
@@ -9,37 +10,51 @@ import static java.lang.Thread.sleep;
 
 public class Main {
 
-    static int maxCount = 100000;
+    static int totalIterations = 100000;
+
     public static void main(String[] args) {
         Instant start = Instant.now();
 
-//        executorSend();
-        virtualSend();
+        if (Objects.equals(args[0], "TP")) {
+            threadPoolFlow();
+        } else if (Objects.equals(args[0], "VT")) {
+            virtualThreadFlow();
+        }
 
-        System.out.println("Duration is : " + Duration.between(start, Instant.now()).getSeconds());
+        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds");
     }
 
-    public static void executorSend() {
+    public static int[] threadPoolFlow() {
+        //System.out.println("Flow::ThreadPool");
         try (var executor = Executors.newFixedThreadPool(10000)) {
-            IntStream.range(0, maxCount).forEach(i -> executor.submit(() -> {
-                try {
-                    sleep(Duration.ofSeconds(1));
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }));
+            return IntStream.range(0, totalIterations)
+                    .map(i -> {
+                        executor.submit(() -> {
+                            try {
+                                sleep(Duration.ofSeconds(5));
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        return i;
+                    }).toArray();
         }
     }
 
-    public static void virtualSend() {
+    public static int[] virtualThreadFlow() {
+        //System.out.println("Flow::VirtualThread");
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            IntStream.range(0, maxCount).forEach(i -> executor.submit(() -> {
-                try {
-                    sleep(Duration.ofSeconds(1));
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }));
+            return IntStream.range(0, totalIterations)
+                    .map(i -> {
+                        executor.submit(() -> {
+                            try {
+                                sleep(Duration.ofSeconds(5));
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        return i;
+                    }).toArray();
         }
     }
 }

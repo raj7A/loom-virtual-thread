@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,13 +16,16 @@ import static java.lang.Thread.sleep;
 public class EchoServer {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("CPU count : " + Runtime.getRuntime().availableProcessors());
-        virtualThread(args);
-        //executorThread(args);
+        System.out.println("Socket server up with CPU count : " + Runtime.getRuntime().availableProcessors());
+        if (Objects.equals(args[1], "TP")) {
+            threadPoolFlow(args);
+        } else if (Objects.equals(args[1], "VT")) {
+            virtualThreadFlow(args);
+        }
     }
 
-    private static void executorThread(String[] args) throws IOException {
-        System.out.println("Flow::TP");
+    private static void threadPoolFlow(String[] args) throws IOException {
+        //System.out.println("Flow::ThreadPool");
         ExecutorService executor = Executors.newFixedThreadPool(5000);
         ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
         while (true) {
@@ -31,7 +35,7 @@ public class EchoServer {
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                     sleep(Duration.ofSeconds(1));
-                    out.println("TP :: For input " + in.readLine() + " ,Thread is " + Thread.currentThread().threadId());
+                    out.println("ThreadPool :: For input " + in.readLine() + " ,Thread is " + Thread.currentThread().threadId());
                 } catch (IOException | InterruptedException e) {
                     System.out.println(e);
                     throw new RuntimeException(e);
@@ -40,8 +44,8 @@ public class EchoServer {
         }
     }
 
-    private static void virtualThread(String[] args) throws IOException {
-        System.out.println("Flow::VT");
+    private static void virtualThreadFlow(String[] args) throws IOException {
+        //System.out.println("Flow::VirtualThread");
         ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
         while (true) {
             Socket clientSocket = serverSocket.accept();
@@ -50,7 +54,7 @@ public class EchoServer {
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                     sleep(Duration.ofSeconds(1));
-                    out.println("VT :: For input " + in.readLine() + " ,Thread is " + Thread.currentThread().threadId());
+                    out.println("VirtualThread :: For input " + in.readLine() + " ,Thread is " + Thread.currentThread().threadId());
                 } catch (IOException | InterruptedException e) {
                     System.out.println(e);
                     throw new RuntimeException(e);

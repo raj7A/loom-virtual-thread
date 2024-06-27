@@ -6,4 +6,4 @@ COPY target /target
 
 WORKDIR /target
 
-ENTRYPOINT exec java -jar client-1.0-SNAPSHOT.jar
+ENTRYPOINT exec java -jar client-1.0-SNAPSHOT.jar $FLOW
