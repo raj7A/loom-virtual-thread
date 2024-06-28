@@ -24,7 +24,7 @@ public class Loop {
             virtualThreadFlow();
         }
 
-        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds with the each iteration configured for sleep time of " + sleepTimeInSecs + " seconds");
+        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds with each iteration configured for sleep time of " + sleepTimeInSecs + " seconds");
     }
 
     public static int[] threadPoolFlow() {
