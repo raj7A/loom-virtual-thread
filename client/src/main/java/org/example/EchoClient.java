@@ -12,7 +12,8 @@ import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 public class EchoClient {
-    static int totalIterations = 25000;
+    static int totalIterations = 25000; // may not go beyond 28K due to port limitatiton
+    static int sleepTimeInSecs = 1; // the same is configured on the serve side
     static String tpHost = "loomservertp";
     static String vtHost = "loomservervt";
     static int tpPort = 8098;
@@ -41,7 +42,8 @@ public class EchoClient {
     public static void threadPoolFlow() {
         warmUp(tpHost, tpPort);
         Instant start = Instant.now();
-        try (var executor = Executors.newFixedThreadPool(5000)) {
+//        try (var executor = Executors.newFixedThreadPool(5000)) {
+        try (var executor = Executors.newCachedThreadPool()) {
             IntStream.range(0, totalIterations).forEach(i -> executor.submit(() -> {
                 try {
                     acquireConnectionAndSend(tpHost, tpPort, i);
@@ -51,7 +53,7 @@ public class EchoClient {
                 }
             }));
         }
-        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds");
+        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds with the each iteration configured for sleep time of " + sleepTimeInSecs + " seconds");
     }
 
     public static void virtualThreadFlow() {
@@ -67,7 +69,7 @@ public class EchoClient {
                 }
             }));
         }
-        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds");
+        System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds with the each iteration configured for sleep time of " + sleepTimeInSecs + " seconds");
     }
 
     private static void acquireConnectionAndSend(String host, Integer port, Integer input) throws IOException {
