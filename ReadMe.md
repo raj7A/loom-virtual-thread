@@ -17,7 +17,7 @@ A simple POC to explore the new virtual thread (introduced in Java 21) , and com
 ### About the modules :
     1. loop   - A simple Non-IO based looping logic that has examples for both Platform Thread & Virtual Thread 
     2. server - A socket based IO server that has examples for both Platform Thread & Virtual Thread
-    3. client - A socket based IO client that has examples for both Platform Thread & Virtual Thread, which invokes the corresponding server
+    3. client - A socket based IO client that has examples for both Platform Thread & Virtual Thread, which invokes the corresponding server on loop
 
 ### Pre-req :
     1. Java 22
@@ -55,7 +55,8 @@ docker compose up
 ### Sample Result :
 ![img.png](perf_numbers.png)
 ### Conclusion
-    This repo provides handy the setup for you to do the POC for yourself. Results are defintely better compared to platform thread, but still play around it with different number of iterations, thread pool executors, thread counts, thread sleep time etc..
+    Upon multiple benchmarking runs, results are defintely better compared to platform thread, but still play around it with different number of iterations, thread pool executors, thread counts, thread sleep time etc..
+    This repo provides the basic setup handy for you to do the POC for yourself, and intentionally skipping the detailed benchmarking numbers.
 
 
 ### References
