@@ -13,6 +13,7 @@ A simple POC to explore the new virtual thread (introduced in Java 21) , and com
     2. Cheap
     3. Thread should NOT be pooled, yet achieves optimal scalability better than platform thread
     4. Preserves the thread-per-request model
+    5. Virtual threads are not faster threads — they do not run code any faster than platform threads. They exist to provide scale (higher throughput), not speed (lower latency)
 
 ### About the modules :
     1. loop   - A simple Non-IO based looping logic that has examples for both Platform Thread & Virtual Thread 
