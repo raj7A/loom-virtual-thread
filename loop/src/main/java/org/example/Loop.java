@@ -10,11 +10,15 @@ import static java.lang.Thread.sleep;
 
 public class Loop {
 
-    static int totalIterations = 100000;
-    static int sleepTimeInSecs = 1;
+    public static int totalIterations = 100000;
+    public static int sleepTimeInSecs = 1;
 
 
     public static void main(String[] args) {
+        trigger(args);
+    }
+
+    public static void trigger(String[] args) {
         System.out.println("Loop process is up with CPU count : " + Runtime.getRuntime().availableProcessors());
         Instant start = Instant.now();
 
