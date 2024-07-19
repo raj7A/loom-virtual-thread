@@ -16,7 +16,7 @@ A simple POC to explore the new virtual thread (introduced in Java 21) , and com
     5. Virtual threads are not faster threads — they do not run code any faster than platform threads. They exist to provide scale (higher throughput), not speed (lower latency)
 
 ### About the modules :
-    1. loop   - A simple Non-IO based looping logic that has examples for both Platform Thread & Virtual Thread 
+    1. loop   - A simple Non-IO (sleep induced) based looping logic that has examples for both Platform Thread & Virtual Thread 
     2. server - A socket based IO server that has examples for both Platform Thread & Virtual Thread
     3. client - A socket based IO client that has examples for both Platform Thread & Virtual Thread, which invokes the corresponding server on loop
 
@@ -32,11 +32,11 @@ docker build -t loom-client client
 docker build -t loop loop
 ```
 ### Run :
-_1. Run the IO based server & client to test Thread Pool implementation :_
+_1. Run the Non-IO based server & client to test Thread Pool implementation :_
 ``` bash
 docker compose up looptp 
 ```
-_2. Run the IO based server & client to test Virtual Thread implementation :_
+_2. Run the Non-IO based server & client to test Virtual Thread implementation :_
 ``` bash
 docker compose up loopvt
 ```
@@ -56,7 +56,7 @@ docker compose up
 ### Sample Result :
 ![img.png](perf_numbers.png)
 ### Conclusion
-    Upon multiple benchmarking runs, results are defintely better compared to platform thread, but still play around it with different number of iterations, thread pool executors, thread counts, thread sleep time etc..
+    Upon multiple benchmarking runs, Virtual threads throughput is defintely better compared to platform thread, but still play around it with different number of iterations, thread pool executors, thread counts, thread sleep time etc..
     This repo provides the basic setup handy for you to do the POC for yourself, and intentionally skipping the detailed benchmarking numbers.
 
 

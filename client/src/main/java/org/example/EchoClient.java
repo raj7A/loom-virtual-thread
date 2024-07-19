@@ -44,8 +44,9 @@ public class EchoClient {
 
     public static void threadPoolFlow() {
         warmUp(tpHost, tpPort);
-        Instant start = Instant.now();
+//      try (var executor = Executors.newFixedThreadPool(5000)) {
         try (var executor = Executors.newCachedThreadPool()) {
+            Instant start = Instant.now();
             LongSummaryStatistics summaryStatistics = send(tpHost, tpPort, executor, start);
             logResult(summaryStatistics, start);
         }
@@ -53,8 +54,8 @@ public class EchoClient {
 
     public static void virtualThreadFlow() {
         warmUp(vtHost, vtPort);
-        Instant start = Instant.now();
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            Instant start = Instant.now();
             LongSummaryStatistics summaryStatistics = send(vtHost, vtPort, executor, start);
             logResult(summaryStatistics, start);
         }
@@ -97,7 +98,7 @@ public class EchoClient {
 
     private static void logResult(LongSummaryStatistics summaryStatistics, Instant start) {
         System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() +
-                " seconds with each iteration configured for sleep time of " + sleepTimeInSecs + " seconds" +
-                " with average response time of " + Math.round(summaryStatistics.getAverage()) + " seconds");
+                " seconds with an average response time of " + Math.round(summaryStatistics.getAverage()) + " seconds" +
+                ", by having each iteration configured for sleep time of " + sleepTimeInSecs + " seconds");
     }
 }
