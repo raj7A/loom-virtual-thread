@@ -28,6 +28,7 @@ public class Loop {
             virtualThreadFlow();
         }
 
+//        System.out.println("Used memory in MB : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000);
         System.out.println("Completed " + totalIterations + " iterations in " + Duration.between(start, Instant.now()).getSeconds() + " seconds with each iteration configured for sleep time of " + sleepTimeInSecs + " seconds");
     }
 
@@ -39,6 +40,7 @@ public class Loop {
                     .map(i -> {
                         executor.submit(() -> {
                             try {
+//                                System.out.println((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000);
                                 sleep(Duration.ofSeconds(sleepTimeInSecs));
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
@@ -56,6 +58,7 @@ public class Loop {
                     .map(i -> {
                         executor.submit(() -> {
                             try {
+//                                System.out.println((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000);
                                 sleep(Duration.ofSeconds(sleepTimeInSecs));
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
