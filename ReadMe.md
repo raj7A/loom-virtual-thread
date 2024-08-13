@@ -1,6 +1,6 @@
 # Virtual Thread vs Platform Thread
 
-A simple POC to explore the new virtual thread (introduced in Java 22 - Project loom) , and compare its performance with traditional platform thread.
+A simple POC (vanilla java) to explore the new virtual thread (introduced in Java 22 - Project loom) , and compare its performance with traditional platform thread.
 
 ### Platform Thread (https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html) :
     1. Heavy thread, hence generally pooled
@@ -16,9 +16,9 @@ A simple POC to explore the new virtual thread (introduced in Java 22 - Project 
     5. Virtual threads are not faster threads — they do not run code any faster than platform threads. They exist to provide scale (higher throughput), not speed (lower latency)
 
 ### About the modules :
-    1. loop   - A simple Non-IO (sleep induced) based looping logic that has examples for both Platform Thread & Virtual Thread 
+    1. loop   - A simple looping logic (sleep induced) that has examples for both Platform Thread & Virtual Thread 
     2. server - A socket based IO server that has examples for both Platform Thread & Virtual Thread
-    3. client - A socket based IO client that has examples for both Platform Thread & Virtual Thread, which invokes the corresponding server on loop
+    3. client - A socket based IO client that has examples for both Platform Thread & Virtual Thread (client calls the server)
 
 ### Pre-req :
     1. Java 22
@@ -32,19 +32,19 @@ docker build -t loom-client client
 docker build -t loop loop
 ```
 ### Run :
-_1. Run the Non-IO based server & client to test Thread Pool implementation :_
+_1. Run the loop module - Thread Pool implementation :_
 ``` bash
 docker compose up looptp 
 ```
-_2. Run the Non-IO based server & client to test Virtual Thread implementation :_
+_2. Run the loop module - Virtual Thread implementation :_
 ``` bash
 docker compose up loopvt
 ```
-_3. Run the IO based server & client to test Platform Thread/Thread Pool implementation :_
+_3. Run the IO based server & client - Platform Thread/Thread Pool implementation :_
 ``` bash
 docker compose up loomservertp loomclienttp
 ```
-_4. Run the IO based server & client to test Virtual Thread implementation :_
+_4. Run the IO based server & client - test Virtual Thread implementation :_
 ``` bash
 docker compose up loomservervt loomclientvt 
 ```

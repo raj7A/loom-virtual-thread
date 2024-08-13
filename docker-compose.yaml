@@ -1,7 +1,7 @@
 services:
   loopvt:
     image: loop:latest
-    container_name: loom-non-io-virtual-thread
+    container_name: loom-loop-virtual-thread
     ports:
       - "8999:8999"
     deploy:
@@ -14,7 +14,7 @@ services:
       FLOW: "VT"
   looptp:
     image: loop:latest
-    container_name: loom-non-io-thread-pool
+    container_name: loom-loop-thread-pool
     ports:
       - "8998:8998"
     deploy:
