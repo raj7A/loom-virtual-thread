@@ -41,6 +41,7 @@ public class Loop {
                         executor.submit(() -> {
                             try {
 //                                System.out.println((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000);
+//                                System.out.println(Thread.currentThread().getName() + "" + Thread.currentThread().threadId());
                                 sleep(Duration.ofSeconds(sleepTimeInSecs));
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
@@ -59,6 +60,7 @@ public class Loop {
                         executor.submit(() -> {
                             try {
 //                                System.out.println((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000);
+//                                System.out.println(Thread.currentThread().getName() + "" + Thread.currentThread().threadId());
                                 sleep(Duration.ofSeconds(sleepTimeInSecs));
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
