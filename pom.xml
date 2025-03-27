@@ -12,6 +12,9 @@
         <module>client</module>
         <module>server</module>
         <module>loop</module>
+        <module>netty-server</module>
+        <module>http-client</module>
+        <module>tomcat-server</module>
     </modules>
 
     <properties>

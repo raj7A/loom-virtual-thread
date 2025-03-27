@@ -47,7 +47,7 @@ public class EchoClient {
 //      try (var executor = Executors.newFixedThreadPool(5000)) {
         try (var executor = Executors.newCachedThreadPool()) {
             Instant start = Instant.now();
-            LongSummaryStatistics summaryStatistics = send(tpHost, tpPort, executor, start);
+            LongSummaryStatistics summaryStatistics = send(tpHost, tpPort, executor);
             logResult(summaryStatistics, start);
         }
     }
@@ -56,12 +56,12 @@ public class EchoClient {
         warmUp(vtHost, vtPort);
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
             Instant start = Instant.now();
-            LongSummaryStatistics summaryStatistics = send(vtHost, vtPort, executor, start);
+            LongSummaryStatistics summaryStatistics = send(vtHost, vtPort, executor);
             logResult(summaryStatistics, start);
         }
     }
 
-    private static LongSummaryStatistics send(String host, int port, ExecutorService executor, Instant start) {
+    private static LongSummaryStatistics send(String host, int port, ExecutorService executor) {
         return IntStream.range(0, totalIterations).mapToObj(i -> executor.submit(() -> {
                     try {
                         return acquireConnectionAndSend(host, port, i);

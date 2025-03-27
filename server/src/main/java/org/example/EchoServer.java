@@ -38,6 +38,7 @@ public class EchoServer {
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                     sleep(Duration.ofSeconds(sleepTimeInSecs));
+//                    System.out.println(Thread.currentThread().isVirtual());
                     out.println("ThreadPool :: For input " + in.readLine() + " ,Thread is " + Thread.currentThread().threadId());
                 } catch (IOException | InterruptedException e) {
                     System.out.println(e);
@@ -57,6 +58,7 @@ public class EchoServer {
                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                     sleep(Duration.ofSeconds(sleepTimeInSecs));
+//                    System.out.println(Thread.currentThread().isVirtual());
                     out.println("VirtualThread :: For input " + in.readLine() + " ,Thread is " + Thread.currentThread().threadId());
                 } catch (IOException | InterruptedException e) {
                     System.out.println(e);
