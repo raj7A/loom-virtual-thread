@@ -48,15 +48,17 @@ jmeter -n -t netty_and_tomcat.jmx -l output.jtl
 4. tomcat-server(virtual thread) provides huge throughput compared to netty-server(reactor webflux), without compromising the latency.
 5. It just goes on and on... as many tps as possible with very slight latency increase.
 
-#### Netty metrics :
+#### Netty metrics (70tps) :
 
 ![netty.png](..%2Fimages%2Fnetty.png)
 
 #### Tomcat metrics :
 
+400tps..
+
 ![tomcat.png](..%2Fimages%2Ftomcat.png)
 
-and it just goes on and on...
+and it just goes on and on... 1500 tps..
 
 ![tomcat_n.png](..%2Fimages%2Ftomcat_n.png)
 
