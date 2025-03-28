@@ -21,6 +21,7 @@ public class Controller {
     @GetMapping("/biProcess")
     public CompletableFuture<String> biSleep() {
         return biProcessSleep();
+//        return triProcessSleep();
     }
 
     @GetMapping("/process")
@@ -33,6 +34,15 @@ public class Controller {
                 .thenCombine(
                         asyncTaskExecutor.submitCompletable(() -> sleep(50)),
                         (sleep1, sleep2) -> sleep1 + "::" + sleep2);
+    }
+
+    private CompletableFuture<String> triProcessSleep() {
+        return asyncTaskExecutor.submitCompletable(() -> sleep(50))
+                .thenCombine(
+                        asyncTaskExecutor.submitCompletable(() -> sleep(50)),
+                        (sleep1, sleep2) -> sleep1 + "::" + sleep2)
+                .thenCompose(result -> asyncTaskExecutor.submitCompletable(() -> sleep(50)))
+                .thenApply(slept -> slept);
     }
 
     private static String sleep(Integer sleep) {
