@@ -60,8 +60,3 @@ docker compose up
 ### Conclusion
     Upon multiple benchmarking runs, Virtual Threads throughput is defintely better compared to platform thread, but still play around it with different number of iterations, thread pool executors, thread counts, thread sleep time etc..
     This repo provides the basic setup handy for you to do the POC for yourself, and intentionally skipping the detailed benchmarking numbers.
-
-
-### References
-1. https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html#GUID-2DDA5807-5BD5-4ABC-B62A-A1230F0566E0
-2. https://blog.rockthejvm.com/ultimate-guide-to-java-virtual-threads/ - To understand the internals of Virtual Thread

@@ -1,6 +1,6 @@
 # Netty vs Tomcat
 
-A simple POC (springboot framework based) to explore the new virtual thread (introduced in Java 22 - Project loom) , and compare its performance with project reactor (asynch framework).
+A simple springboot framework based POC to explore the new virtual thread (introduced in Java 22 - Project loom) , and compare its performance with project reactor (asynch/concurrency).
 
 ### About the modules :
     1. netty-server  - Spring boot based netty server that uses webflux - sleep induced delay
@@ -42,7 +42,7 @@ jmeter -n -t netty_and_tomcat.jmx -l output.jtl
 ```
 
 ### Observations :
-1. /biProcess endpoint(that does 2 concurrent backend IO sleep induced call with 50ms each) takes 55ms/request to 60ms/request .
+1. /biProcess endpoint in netty & tomcat server apps takes 55ms/request to 60ms/request. The /biProcess endpoint makes 2 concurrent simulated backend IO calls - calls simulated via sleep with 50ms delay on each call
 2. Netty handles upto 70tps without breaching p95 response time of 60ms
 3. Tomcat handles upto 400tps without breaching p95 response time of 60ms
 4. tomcat-server(virtual thread) provides huge throughput compared to netty-server(reactor webflux), without compromising the latency.
@@ -57,7 +57,3 @@ Tomcat metrics :
 
 ### Disclaimer
 1. This repo provides the basic setup handy for you to do the POC for yourself, and intentionally skipping the detailed benchmarking numbers.
-
-### References
-1. https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html#GUID-2DDA5807-5BD5-4ABC-B62A-A1230F0566E0
-2. https://blog.rockthejvm.com/ultimate-guide-to-java-virtual-threads/ - To understand the internals of Virtual Thread
