@@ -4,17 +4,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.LongSummaryStatistics;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 @SpringBootApplication
@@ -46,7 +43,9 @@ public class HttpClient implements CommandLineRunner {
                 .bodyToMono(String.class)
                 .doOnNext(System.out::println)
                 .map(val -> Duration.between(start, Instant.now()).get(ChronoUnit.SECONDS))
-                .doOnNext(System.out::println);
+                .doOnNext(out -> {
+                    System.out.println("invoked " + url + " :: response is " + out);
+                });
     }
 
     private static LongSummaryStatistics send(ExecutorService executor) {

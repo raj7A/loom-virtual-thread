@@ -83,36 +83,3 @@ services:
     environment:
       FLOW: "TP"
       PORT: "8098"
-  nettyserver:
-    image: netty-server:latest
-    container_name: netty-server
-    ports:
-      - "6066:6066"
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-        reservations:
-          cpus: '1.0'
-  tomcatserver:
-    image: tomcat-server:latest
-    container_name: tomcat-server
-    ports:
-      - "6076:6076"
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-        reservations:
-          cpus: '1.0'
-  httpclient:
-    image: http-client:latest
-    container_name: http-client
-    ports:
-      - "6000:6000"
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-        reservations:
-          cpus: '1.0'

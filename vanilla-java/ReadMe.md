@@ -24,8 +24,43 @@ A simple POC (vanilla java) to explore the new virtual thread (introduced in Jav
     1. Java 22
     2. Container runtimes like Docker (Docket desktop/colima)
 
+### Build :
+``` bash
+./mvnw clean install
+docker build -t loom-server server
+docker build -t loom-client client
+docker build -t loop loop
+```
 ### Run :
-    1. Refer to the ReadMe.md in each folder (spring-boot/vanilla-java)
+_1. Run the loop module - Thread Pool implementation :_
+``` bash
+docker compose up looptp 
+```
+_2. Run the loop module - Virtual Thread implementation :_
+``` bash
+docker compose up loopvt
+```
+_3. Run the IO based server & client - Platform Thread/Thread Pool implementation :_
+``` bash
+docker compose up loomservertp loomclienttp
+```
+_4. Run the IO based server & client - test Virtual Thread implementation :_
+``` bash
+docker compose up loomservervt loomclientvt 
+```
+_5. Run all at once :_
+``` bash
+docker compose up
+```
+
+### Sample Result :
+
+![perf_nums.png](images/perf_nums.png)
+
+### Conclusion
+    Upon multiple benchmarking runs, Virtual Threads throughput is defintely better compared to platform thread, but still play around it with different number of iterations, thread pool executors, thread counts, thread sleep time etc..
+    This repo provides the basic setup handy for you to do the POC for yourself, and intentionally skipping the detailed benchmarking numbers.
+
 
 ### References
 1. https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html#GUID-2DDA5807-5BD5-4ABC-B62A-A1230F0566E0
