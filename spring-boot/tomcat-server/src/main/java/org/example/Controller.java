@@ -6,6 +6,7 @@ import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
@@ -16,15 +17,22 @@ public class Controller {
     @Qualifier("applicationTaskExecutor")
     private AsyncTaskExecutor asyncTaskExecutor;
 
-    @GetMapping("/processAsynch")
-    public CompletableFuture<String> sleepAsync() {
-        return asyncTaskExecutor.submitCompletable(() -> sleep(100))
-                .thenApply(slept -> slept + " for 100 ms");
+
+    @GetMapping("/biProcess")
+    public CompletableFuture<String> biSleep() {
+        return biProcessSleep();
     }
 
     @GetMapping("/process")
     public String sleep() {
-        return sleep(100);
+        return sleep(50);
+    }
+
+    private CompletableFuture<String> biProcessSleep() {
+        return asyncTaskExecutor.submitCompletable(() -> sleep(50))
+                .thenCombine(
+                        asyncTaskExecutor.submitCompletable(() -> sleep(50)),
+                        (sleep1, sleep2) -> sleep1 + "::" + sleep2);
     }
 
     private static String sleep(Integer sleep) {

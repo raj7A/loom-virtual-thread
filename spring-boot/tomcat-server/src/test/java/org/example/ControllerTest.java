@@ -21,5 +21,15 @@ public class ControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+        assertEquals("Slept", response.getBody());
+    }
+
+    @Test
+    public void testProcessAsynchEndpoint() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/biProcess", String.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Slept::Slept", response.getBody());
     }
 }

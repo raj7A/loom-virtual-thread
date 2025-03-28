@@ -1,19 +1,6 @@
-# Virtual Thread vs Platform Thread
+# Netty vs Tomcat
 
-A simple POC (springboot framework based) to explore the new virtual thread (introduced in Java 22 - Project loom) , and compare its performance with traditional platform thread.
-
-### Platform Thread (https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html) :
-    1. Heavy thread, hence generally pooled
-    2. Costlier
-    3. Thread is pooled to achieve optimal scalability
-    4. May or may not preserve the thread-per-request model, depends on asynchronous/synchronous model
-
-### Virtual Thread (https://openjdk.org/jeps/444) :
-    1. Lightweight thread, hence create as you need
-    2. Cheap
-    3. Thread should NOT be pooled, yet achieves optimal scalability better than platform thread
-    4. Preserves the thread-per-request model
-    5. Virtual threads are not faster threads — they do not run code any faster than platform threads. They exist to provide scale (higher throughput), not speed (lower latency)
+A simple POC (springboot framework based) to explore the new virtual thread (introduced in Java 22 - Project loom) , and compare its performance with project reactor (asynch framework).
 
 ### About the modules :
     1. netty-server  - Spring boot based netty server that uses webflux - sleep induced delay
@@ -45,24 +32,31 @@ _3. Use the jmeter to trigger the load :_
 ```bash
 brew install jmeter
 ```
-To run via UI - below command opens the jmeter UI
+To run via UI - below command opens the jmeter UI (import netty_and_tomcat.jmx and tweak as per your requirement)
 ```bash
 jmeter
 ```
-To run via CLI
+To run via CLI 
 ```bash
 jmeter -n -t netty_and_tomcat.jmx -l output.jtl
 ```
 
-### Sample Result :
-Netty Server :
+### Observations :
+1. /biProcess endpoint(that does 2 concurrent backend IO sleep induced call with 50ms each) takes 55ms/request to 60ms/request .
+2. Netty handles upto 70tps without breaching p95 response time of 60ms
+3. Tomcat handles upto 400tps without breaching p95 response time of 60ms
+4. tomcat-server(virtual thread) provides huge throughput compared to netty-server(reactor webflux), without compromising the latency.
+
+Netty metrics :
+
 ![netty.png](..%2Fimages%2Fnetty.png)
 
-Tomcat Server :
+Tomcat metrics :
+
 ![tomcat.png](..%2Fimages%2Ftomcat.png)
 
-### Conclusion
-    tomcat-server(virtual thread) provides 4x throughput compared to netty-server(reactor webflux), without comprimising the latency
+### Disclaimer
+1. This repo provides the basic setup handy for you to do the POC for yourself, and intentionally skipping the detailed benchmarking numbers.
 
 ### References
 1. https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html#GUID-2DDA5807-5BD5-4ABC-B62A-A1230F0566E0

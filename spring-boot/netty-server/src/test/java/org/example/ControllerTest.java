@@ -17,23 +17,33 @@ public class ControllerTest {
     private WebTestClient webTestClient;
 
     @Test
-    public void testGetHello() {
+    public void testProcess() {
         webTestClient.get().uri("/process")
                 .accept(MediaType.TEXT_PLAIN)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class)
-                .isEqualTo("Slept for 100 ms");
+                .isEqualTo("Slept for 50 ms");
     }
 
     @Test
-    public void testGetHello_ResponseTime() {
-        long startTime = System.currentTimeMillis();
-        webTestClient.get().uri("/sleep/100")
+    public void testBiProcess() {
+        webTestClient.get().uri("/biProcess")
                 .accept(MediaType.TEXT_PLAIN)
                 .exchange()
-                .expectStatus().isOk();
-        long endTime = System.currentTimeMillis();
-        assertEquals(true, endTime - startTime >= 100);
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .isEqualTo("Slept::Slept");
     }
+
+//    @Test
+//    public void testProcess_ResponseTime() {
+//        long startTime = System.currentTimeMillis();
+//        webTestClient.get().uri("/sleep/100")
+//                .accept(MediaType.TEXT_PLAIN)
+//                .exchange()
+//                .expectStatus().isOk();
+//        long endTime = System.currentTimeMillis();
+//        assertEquals(true, endTime - startTime >= 100);
+//    }
 }

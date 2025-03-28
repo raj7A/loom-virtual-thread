@@ -16,16 +16,18 @@ A simple POC (vanilla java) to explore the new virtual thread (introduced in Jav
     5. Virtual threads are not faster threads — they do not run code any faster than platform threads. They exist to provide scale (higher throughput), not speed (lower latency)
 
 ### About the modules :
-    1. loop   - A simple looping logic (sleep induced) that has examples for both Platform Thread & Virtual Thread 
-    2. server - A socket based IO server that has examples for both Platform Thread & Virtual Thread
-    3. client - A socket based IO client that has examples for both Platform Thread & Virtual Thread (client calls the server)
+    1. spring-boot -> Setup for experimenting netty server(reactive threads) vs tomcat server(virtual threads)
+    2. vanilla-java based -> Setup for experimenting virtual thread vs platform thread
 
 ### Pre-req :
     1. Java 22
     2. Container runtimes like Docker (Docket desktop/colima)
 
 ### Run :
-    1. Refer to the ReadMe.md in each folder (spring-boot/vanilla-java)
+This entire setups is virtualized in docker (with fixed cpu), and which will give us a consistent result on each run.
+Hence, the benchmarking result will be easier to derive, and be more accurate.
+1. SpringBoot based - [ReadMe.md](spring-boot%2FReadMe.md)
+2. Vanilla java based - [ReadMe.md](vanilla-java%2FReadMe.md)
 
 ### References
 1. https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html#GUID-2DDA5807-5BD5-4ABC-B62A-A1230F0566E0

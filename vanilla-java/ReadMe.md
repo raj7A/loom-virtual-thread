@@ -17,8 +17,8 @@ A simple POC (vanilla java) to explore the new virtual thread (introduced in Jav
 
 ### About the modules :
     1. loop   - A simple looping logic (sleep induced) that has examples for both Platform Thread & Virtual Thread 
-    2. server - A socket based IO server that has examples for both Platform Thread & Virtual Thread
-    3. client - A socket based IO client that has examples for both Platform Thread & Virtual Thread (client calls the server)
+    2. server - A socket based IO SERVER that has examples for both Platform Thread & Virtual Thread
+    3. client - A socket based IO CLIENT that has examples for both Platform Thread & Virtual Thread (client calls the server)
 
 ### Pre-req :
     1. Java 22
