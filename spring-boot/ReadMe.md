@@ -46,14 +46,19 @@ jmeter -n -t netty_and_tomcat.jmx -l output.jtl
 2. Netty handles upto 70tps without breaching p95 response time of 60ms
 3. Tomcat handles upto 400tps without breaching p95 response time of 60ms
 4. tomcat-server(virtual thread) provides huge throughput compared to netty-server(reactor webflux), without compromising the latency.
+5. It just goes on and on... as many tps as possible with very slight latency increase.
 
-Netty metrics :
+#### Netty metrics :
 
 ![netty.png](..%2Fimages%2Fnetty.png)
 
-Tomcat metrics :
+#### Tomcat metrics :
 
 ![tomcat.png](..%2Fimages%2Ftomcat.png)
+
+and it just goes on and on...
+
+![tomcat_n.png](..%2Fimages%2Ftomcat_n.png)
 
 ### Disclaimer
 1. This repo provides the basic setup handy for you to do the POC for yourself, and intentionally skipping the detailed benchmarking numbers.
