@@ -27,3 +27,4 @@ target/
 loom.iml
 *.lst
 .DS_Store
+*.jtl
