@@ -42,12 +42,13 @@ jmeter -n -t netty_and_tomcat.jmx -l output.jtl
 ```
 
 ### Observations :
-1. /biProcess endpoint in netty & tomcat server apps takes 55ms/request to 60ms/request. The /biProcess endpoint makes 2 concurrent simulated backend IO calls - calls simulated via sleep with 50ms delay on each call
-2. Netty handles upto 70tps without breaching p95 response time of 60ms
-3. Tomcat handles upto 400tps without breaching p95 response time of 60ms
+1. /biProcess endpoint in netty server(conurrency via mono.zip) & tomcat server(concurrency via completableFuture) apps takes 55ms/request to 60ms/request. 
+   1. The /biProcess endpoint makes 2 concurrent simulated backend IO calls - calls simulated via sleep with 50ms delay on each call.
+2. Netty handles upto 70tps without breaching p95 response time of 60ms.
+3. Tomcat handles upto 400tps without breaching p95 response time of 60ms.
 4. tomcat-server(virtual thread) provides huge throughput compared to netty-server(reactor webflux), without compromising the latency.
 5. It just goes on and on... as many tps as possible with very slight latency increase.
-
+6. Also, experiment with /scProcess, that uses java [structuredConcurrency](https://docs.oracle.com/en/java/javase/21/core/structured-concurrency.html) preview feature (that handles high throughput upto 350tps)
 #### Netty metrics (70tps) :
 
 ![netty.png](..%2Fimages%2Fnetty.png)
@@ -58,7 +59,7 @@ jmeter -n -t netty_and_tomcat.jmx -l output.jtl
 
 ![tomcat.png](..%2Fimages%2Ftomcat.png)
 
-and it just goes on and on... 1500 tps..
+and it just goes on and on... 1300+ tps.. (increase the jmeter users to 100 and throughtput value to 100000.0)
 
 ![tomcat_n.png](..%2Fimages%2Ftomcat_n.png)
 

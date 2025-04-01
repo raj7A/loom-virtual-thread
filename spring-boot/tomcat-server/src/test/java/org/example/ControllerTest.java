@@ -25,6 +25,15 @@ public class ControllerTest {
     }
 
     @Test
+    public void testScProcessEndpoint() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/scProcess", String.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+//        assertEquals("Slept", response.getBody());
+    }
+
+    @Test
     public void testProcessAsynchEndpoint() {
         ResponseEntity<String> response = restTemplate.getForEntity("/biProcess", String.class);
 
