@@ -1,6 +1,6 @@
 # Virtual Thread vs Platform Thread
 
-A simple POC (vanilla java) to explore the new virtual thread (introduced in Java 22 - Project loom) , and compare its performance with traditional platform thread.
+A simple POC (in vanilla java & springboot) to explore the new virtual thread (introduced in Java 22 - Project loom) , and compare its performance with traditional platform thread.
 
 ### Platform Thread (https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html) :
     1. Heavy thread, hence generally pooled
