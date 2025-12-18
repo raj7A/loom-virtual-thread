@@ -24,7 +24,7 @@ A simple POC (in vanilla java & springboot) to explore the new virtual thread (s
     2. Container runtimes like Docker (Docket desktop/colima)
 
 ### Run :
-This entire setups is virtualized in docker (with fixed cpu), and which will give us a consistent result on each run.
+This entire setup is containerised (with fixed cpu), and which will give us a consistent result on each run.
 Hence, the benchmarking result will be easier to derive, and be more accurate.
 1. SpringBoot based - [ReadMe.md](spring-boot%2FReadMe.md)
 2. Vanilla java based - [ReadMe.md](vanilla-java%2FReadMe.md)
